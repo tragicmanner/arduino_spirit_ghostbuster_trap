@@ -11,7 +11,7 @@ Also, as an additional note, while this code is written to run 2 servos and 6 LE
 ## Servos
 The code supports two servos out of the box, which need to be added to your SH (spirit halloween) ghost trap. For details on how I have the servo modded into my trap, see [this youtube video](https://youtu.be/5K85QkGYRnw)
 
-The code has angles set up for my servos, but you will need to modify them for your servos and how you have them set up. EVERY SERVO WILL BE DIFFERENT. YOU MUST MODIFY THE VARIABLES servo1OpenPosition, servo1ClosedPosiiton, servo2OpenPosition, and servo2ClosedPosiiton so that the code positions your servos properly to open and close your trap without binding or other issues.
+The code has angles set up for my servos, but you will need to modify them for your servos and how you have them set up. EVERY SERVO WILL BE DIFFERENT. YOU MUST MODIFY THE VARIABLES servo1OpenPosition, servo1ClosedPosition, servo2OpenPosition, and servo2ClosedPosition so that the code positions your servos properly to open and close your trap without binding or other issues.
 
 You are more than welcome to change the servo pins, just keep in mind that you want to use a PWM pin, and make sure that LED pins are not assigned to the same pin.
 

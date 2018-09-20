@@ -55,9 +55,10 @@ int fadeStep = 30; // This controls how smooth the LED fades will be
 Coroutines<3> coroutines;
 
 int tempState = 0;
+int tempPedal = 0;
 
 void setup() {
-  Serial.begin(9600);
+  //Serial.begin(9600);
   // Set up the pin that watches for the pedal button
   pinMode(pedalPin, INPUT);
   for(int i = 0; i < sizeof(PWMLEDs)/sizeof(int); i++){
@@ -72,21 +73,20 @@ void setup() {
 void loop() {
   // First, read the state of the pedal
   pedalState = digitalRead(pedalPin);
-  if(tempState != trapState) {
+  /*if(tempState != trapState) {
     Serial.print("Trap State: ");
     Serial.print(trapState);
     Serial.print('\n');
     tempState = trapState;
-  }
+  }*/
   
 
   // Update the LEDs and coroutines
   coroutines.update();
-  //FadeLed::update();
 
   // This block detects if a button has been newly pressed (button down) and the trap is in a state to accept pedal presses
-  if (pedalState == HIGH && trapState != trapOpening && trapState != trapClosing) {
-    Serial.print("Pedal Press Accepted\n");
+  if (pedalState == HIGH && trapState != trapOpening && trapState != trapClosing  && pedalPress == false) {
+    //Serial.print("Pedal Press Accepted\n");
     pedalPress = true;
 
     if (trapState == trapIdle) {
@@ -107,7 +107,7 @@ void loop() {
   // This detects if the button is let go (button up), but only if the pedal press was accepted (or done in a state where pedal press is tracked)
   else if (pedalState == LOW && pedalPress == true) {
     pedalPress = false;
-    Serial.print("Pedal Release\n");
+    //Serial.print("Pedal Release\n");
   }
 }
 
