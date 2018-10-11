@@ -38,7 +38,7 @@ const bool autoCloseDoor = true; // If this is true, then after doorOpenTime has
 const int pedalPin = 2;
 // pedalState tracks whether or not the pedal is on or off
 int pedalState = 0;
-int pedalPress = false;
+int latestPedal = 0;
 
 // -- General LED variables--
 int PWMLEDs[4] = {3,5,6,11}; // the PWM pins that you want to run your LEDs with
@@ -54,13 +54,11 @@ int fadeStep = 30; // This controls how smooth the LED fades will be
 // -- Coroutine Stuff --
 Coroutines<3> coroutines;
 
-int tempState = 0;
-int tempPedal = 0;
 
 void setup() {
   //Serial.begin(9600);
   // Set up the pin that watches for the pedal button
-  pinMode(pedalPin, INPUT);
+  pinMode(pedalPin, INPUT_PULLUP);
   for(int i = 0; i < sizeof(PWMLEDs)/sizeof(int); i++){
     pinMode(PWMLEDs[i], OUTPUT);
   }
@@ -73,21 +71,20 @@ void setup() {
 void loop() {
   // First, read the state of the pedal
   pedalState = digitalRead(pedalPin);
-  /*if(tempState != trapState) {
-    Serial.print("Trap State: ");
-    Serial.print(trapState);
-    Serial.print('\n');
-    tempState = trapState;
-  }*/
-  
+
+  bool startPedalStuff = false;
+
+  if(latestPedal != pedalState){
+    latestPedal = pedalState;
+
+    startPedalStuff = true;
+  }
 
   // Update the LEDs and coroutines
   coroutines.update();
 
   // This block detects if a button has been newly pressed (button down) and the trap is in a state to accept pedal presses
-  if (pedalState == HIGH && trapState != trapOpening && trapState != trapClosing  && pedalPress == false) {
-    //Serial.print("Pedal Press Accepted\n");
-    pedalPress = true;
+  if (startPedalStuff && trapState != trapOpening && trapState != trapClosing) {
 
     if (trapState == trapIdle) {
       doorTimer = millis() + doorOpenTime;
@@ -103,11 +100,6 @@ void loop() {
     if(autoCloseDoor){
       coroutines.start(CloseDoors);
     }
-  }
-  // This detects if the button is let go (button up), but only if the pedal press was accepted (or done in a state where pedal press is tracked)
-  else if (pedalState == LOW && pedalPress == true) {
-    pedalPress = false;
-    //Serial.print("Pedal Release\n");
   }
 }
 
