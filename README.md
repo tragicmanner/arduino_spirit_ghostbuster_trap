@@ -4,6 +4,8 @@ Code to drive the Spirit Halloween Ghostbuster ghost trap that has been modded w
 ## Requirements
 This code requires the [Coroutines Library](https://github.com/renaudbedard/littlebits-arduino/tree/master/Libraries/Coroutines) by Renaudbedard to run properly. Just grab the Coroutines.h file and put it in a folder called Coroutines inside your Arduino/libraries folder. See [this article on Arduino Libraries](https://www.arduino.cc/en/Guide/Libraries#toc5) for more details.
 
+It also requires the YX5300 library I put together in this repo in the YX5300 folder. Just copy that folder in your Arduino/libraries directory.
+
 This also requires a Arduino Uno or Arduino Nano to be run in its current state, but the code can easily be adapted to run on all sorts of arduino and arduino compatible devices.
 
 Also, as an additional note, while this code is written to run 2 servos and 6 LEDs, none of these are required for the code to run. If something is not hooked up to a pin that is used, it will not keep other parts of the code from running. So feel free to attach as many or as few of the devices as you wish.
